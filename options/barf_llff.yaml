@@ -1,6 +1,6 @@
 _parent_: options/nerf_llff.yaml
 
-barf_c2f:                                                   # coarse-to-fine scheduling on positional encoding
+barf_c2f: [0.1, 0.5]                                                  # coarse-to-fine scheduling on positional encoding
 
 camera:                                                     # camera options
     noise:                                                  # synthetic perturbations on the camera poses (Blender only)

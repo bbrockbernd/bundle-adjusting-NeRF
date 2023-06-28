@@ -9,6 +9,7 @@ import imageio
 from easydict import EasyDict as edict
 import json
 import pickle
+import random
 
 from . import base
 import camera
@@ -17,12 +18,15 @@ from util import log,debug
 class Dataset(base.Dataset):
 
     def __init__(self,opt,split="train",subset=None):
-        self.raw_H,self.raw_W = 1080,1920
+        self.raw_H,self.raw_W = 3024,3024
         super().__init__(opt,split)
-        self.root = opt.data.root or "data/iphone"
-        self.path = "{}/{}".format(self.root,opt.data.scene)
-        self.path_image = "{}/images".format(self.path)
-        self.list = sorted(os.listdir(self.path_image),key=lambda f: int(f.split(".")[0]))
+        # self.root = opt.data.root or "data/iphone"
+
+        # self.path = "{}/{}".format(self.root,opt.data.scene)
+        self.path_image = "data/iphone"
+        # self.path_image = "{}/images".format(self.path)
+        self.list = os.listdir(self.path_image)
+        random.shuffle(self.list)
         # manually split train/val subsets
         num_val_split = int(len(self)*opt.data.val_ratio)
         self.list = self.list[:-num_val_split] if split=="train" else self.list[-num_val_split:]
@@ -39,7 +43,7 @@ class Dataset(base.Dataset):
 
     def get_all_camera_poses(self,opt):
         # poses are unknown, so just return some dummy poses (identity transform)
-        return camera.pose(t=torch.zeros(len(self),3))
+        return camera.pose(t=torch.ones(len(self),3))
 
     def __getitem__(self,idx):
         opt = self.opt
@@ -66,5 +70,5 @@ class Dataset(base.Dataset):
         intr = torch.tensor([[self.focal,0,self.raw_W/2],
                              [0,self.focal,self.raw_H/2],
                              [0,0,1]]).float()
-        pose = camera.pose(t=torch.zeros(3)) # dummy pose, won't be used
+        pose = camera.pose(t=torch.ones(3)) # dummy pose, won't be used
         return intr,pose

@@ -14,7 +14,7 @@ arch: {}                                                    # architectural opti
 data:                                                       # data options
     root:                                                   # root path to dataset
     dataset:                                                # dataset name
-    image_size: [null,null]                                 # input image sizes [height,width]
+    image_size: [100,100]                                 # input image sizes [height,width]
     num_workers: 8                                          # number of parallel workers for data loading
     preload: false                                          # preload the entire dataset into the memory
     augment: {}                                             # data augmentation (training only)
@@ -40,8 +40,8 @@ optim:                                                      # optimization optio
         # steps:                                            # decay every N epochs
         # gamma: 0.1                                        # decay rate (can be empty if lr_end were specified)
 
-batch_size: 16                                              # batch size
-max_epoch: 1000                                             # train to maximum number of epochs
+batch_size: 64                                              # batch size
+max_epoch: 10                                             # train to maximum number of epochs
 resume: false                                               # resume training (true for latest checkpoint, or number for specific epoch number)
 
 output_root: output                                         # root path for output files (checkpoints and results)
